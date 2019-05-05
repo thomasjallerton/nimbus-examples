@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="webchat.css">
+</head>
+<body>
+
+<form onsubmit="sendRegistrationRequest(); return false;">
+    Enter username: <input type="text" id="username" placeholder="username"/>
+    <input type="submit" value="Register">
+</form>
+
+<a href="webchat.html">WebChat</a>
+<script>
+    username = document.getElementById("username");
+
+    function sendRegistrationRequest() {
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "${NIMBUS_REST_API_URL}/register", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(username.value));
+
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                alert("Successfully Registered")
+            } else {
+                alert("Something went wrong!")
+            }
+        }
+    }
+
+</script>
+</body>
+</html>

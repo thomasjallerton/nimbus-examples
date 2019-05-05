@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<head>
+    <link rel="stylesheet" href="webchat.css">
+</head>
+
+<meta charset = utf-8>
+    <title>HTML5 Chat</title>
+<body>
+
+<section id = "wrapper">
+
+    <header>
+        <h1>Nimbus WebSocket Example</h1>
+    </header>
+
+    <article>
+
+        <p>No account? Register <a href="register.html">here</a></p>
+
+        <form onsubmit = "connectToServer(); return false;">
+            Enter username:  <input type = "text" id = "username" placeholder="username"/>
+            <input type="submit" value="Login">
+        </form>
+
+        <form onsubmit = "addMessage(); return false;">
+            <input type = "text" id = "recipient" placeholder="recipient"/>
+            <input type = "text" id = "chat" placeholder = "type and press enter to chat"/>
+            <input type="submit" value="Send Message">
+        </form>
+
+        <p id = "status">Not connected</p>
+
+        <ul id = "log"></ul>
+
+    </article>
+
+    <script>
+        connected = document.getElementById("connected");
+        recipient = document.getElementById("recipient");
+        log = document.getElementById("log");
+        chat = document.getElementById("chat");
+        username = document.getElementById("username");
+        form = chat.form;
+        state = document.getElementById("status");
+
+        if (window.WebSocket === undefined) {
+            state.innerHTML = "sockets not supported";
+            state.className = "fail";
+        }else {
+            if (typeof String.prototype.startsWith != "function") {
+                String.prototype.startsWith = function (str) {
+                    return this.indexOf(str) === 0;
+                };
+            }
+        }
+
+        function connectToServer() {
+            let wsUri = "${NIMBUS_WEBSOCKET_API_URL}?user=" + username.value;
+            console.log(wsUri);
+            websocket = new WebSocket(wsUri);
+            websocket.onopen = function(evt) { onOpen(evt) };
+            websocket.onclose = function(evt) { onClose(evt) };
+            websocket.onmessage = function(evt) { onMessage(evt) };
+            websocket.onerror = function(evt) { onError(evt) };
+        }
+
+        function onOpen(evt) {
+            state.className = "success";
+            state.innerHTML = "Connected to server";
+        }
+
+        function onClose(evt) {
+            state.className = "fail";
+            state.innerHTML = "Not connected";
+            connected.innerHTML = "0";
+        }
+
+        function onMessage(evt) {
+            let messageData = JSON.parse(evt.data);
+            let node = document.createElement("LI");
+            let textnode = document.createTextNode("Received message: " + messageData.message + " from " + messageData.sender + "\n");
+            node.appendChild(textnode);
+            log.appendChild(node);
+        }
+
+        function onError(evt) {
+            state.className = "fail";
+            state.innerHTML = "Communication error";
+        }
+
+        function addMessage() {
+            let chatMessage = chat.value;
+            let recipientName = recipient.value;
+
+            chat.value = "";
+
+            let newMessage = {topic: "sendMessage", message: chatMessage, recipient: recipientName};
+            websocket.send(JSON.stringify(newMessage));
+        }
+
+
+
+    </script>
+
+</section>
+
+</body>
+
+
+</html>
