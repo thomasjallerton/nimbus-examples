@@ -24,3 +24,19 @@ public class WebSocketMessage {
         this.recipient = recipient;
     }
 }
+
+/*
+Example JSON:
+{
+    "message": "Hello",
+    "recipient": "World"
+}
+
+In reality need to add an extra field "topic" to specify the WebSocket endpoint.
+For Example:
+{
+    "topic": "sendMessage",
+    "message": "Hello",
+    "recipient": "World"
+}
+ */
