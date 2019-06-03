@@ -1,2 +1,3 @@
-projectName: WebSocketChatServer
-assemble: true
+#nimbus.yml
+  projectName: WebSocketChatServer
+  assemble: true

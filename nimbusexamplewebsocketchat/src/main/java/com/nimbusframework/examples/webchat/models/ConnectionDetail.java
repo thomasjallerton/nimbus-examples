@@ -4,7 +4,8 @@ package com.nimbusframework.examples.webchat.models;
 import com.nimbusframework.nimbuscore.annotation.annotations.keyvalue.KeyValueStore;
 import com.nimbusframework.nimbuscore.annotation.annotations.persistent.Attribute;
 
-import static com.nimbusframework.examples.webchat.Configuration.*;
+import static com.nimbusframework.examples.webchat.Configuration.DEV_STAGE;
+import static com.nimbusframework.examples.webchat.Configuration.PRODUCTION_STAGE;
 
 @KeyValueStore(
         keyType = String.class,

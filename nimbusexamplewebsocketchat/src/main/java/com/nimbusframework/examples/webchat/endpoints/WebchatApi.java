@@ -7,7 +7,6 @@ import com.nimbusframework.examples.webchat.models.UserDetail;
 import com.nimbusframework.examples.webchat.models.WebSocketMessage;
 import com.nimbusframework.nimbuscore.annotation.annotations.deployment.AfterDeployment;
 import com.nimbusframework.nimbuscore.annotation.annotations.document.UsesDocumentStore;
-import com.nimbusframework.nimbuscore.annotation.annotations.function.EnvironmentVariable;
 import com.nimbusframework.nimbuscore.annotation.annotations.function.HttpMethod;
 import com.nimbusframework.nimbuscore.annotation.annotations.function.HttpServerlessFunction;
 import com.nimbusframework.nimbuscore.annotation.annotations.function.WebSocketServerlessFunction;
@@ -88,7 +87,9 @@ public class WebchatApi {
         userDetails.put(new UserDetail(username, null));
     }
 
-    //For development stage - Create users and endpoints to see contents of data stores
+    //----------------------------------------------------------------------------------
+    // For development stage - Create users and endpoints to see contents of data stores
+    //----------------------------------------------------------------------------------
 
     @AfterDeployment(stages = {DEV_STAGE})
     @UsesDocumentStore(dataModel = UserDetail.class, stages = {DEV_STAGE})
