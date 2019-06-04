@@ -7,6 +7,7 @@ import com.nimbusframework.nimbuscore.annotation.annotations.function.BasicServe
 import com.nimbusframework.nimbuscore.annotation.annotations.queue.UsesQueue;
 import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.queue.QueueClient;
+import models.DataModel;
 
 public class QueueClientEval {
 
@@ -24,12 +25,13 @@ public class QueueClientEval {
 
         startTime = System.nanoTime();
 
-        client.sendMessage("Hello World!!");
+        client.sendMessageAsJson(new DataModel("test", "test"));
 
         endTime = System.nanoTime();
         duration = (endTime - startTime);
 
         System.out.println("ADD: " + duration);
+
     }
 
     @BasicServerlessFunction

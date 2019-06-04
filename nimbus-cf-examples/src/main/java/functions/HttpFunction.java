@@ -6,11 +6,13 @@ import com.nimbusframework.nimbuscore.wrappers.http.models.HttpEvent;
 import models.DataModel;
 import models.ResponseModel;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class HttpFunction {
     @HttpServerlessFunction(method = HttpMethod.POST, path = "evaluation")
     public ResponseModel httpFunction(DataModel model, HttpEvent httpEvent)
     {
-        assert model.equals(new DataModel("test", "test"));
+        assertEquals(model, new DataModel("test", "test"));
         return new ResponseModel(model.getUsername(), model.getFullName(),true);
     }
 }

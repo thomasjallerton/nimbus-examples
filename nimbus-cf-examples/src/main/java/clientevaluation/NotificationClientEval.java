@@ -23,6 +23,7 @@ public class NotificationClientEval {
 
         System.out.println("INITIALISATION: " + duration);
 
+
         startTime = System.nanoTime();
 
         String id = client.createSubscription(Protocol.SMS, "+447872646190");

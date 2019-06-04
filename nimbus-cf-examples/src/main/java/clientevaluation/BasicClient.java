@@ -15,6 +15,8 @@ import functions.BasicFunction;
 import models.DataModel;
 import models.ResponseModel;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class BasicClient {
 
     @BasicServerlessFunction
@@ -36,13 +38,12 @@ public class BasicClient {
         endTime = System.nanoTime();
         duration = (endTime - startTime);
 
-        assert(model.equals(new ResponseModel("test", "test", true)));
+        assertEquals(model, new ResponseModel("test", "test", true));
         System.out.println("SYNC: " + duration);
 
         startTime = System.nanoTime();
 
-        client.invokeAsync(
-                new DataModel("test", "test"));
+        client.invokeAsync(new DataModel("test", "test"));
 
         endTime = System.nanoTime();
         duration = (endTime - startTime);

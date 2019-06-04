@@ -6,7 +6,7 @@ import com.nimbusframework.nimbuscore.annotation.annotations.persistent.Key;
 
 import java.util.Objects;
 
-@DocumentStore(stages = {"dev", "funceval"})
+@DocumentStore
 public class DataModel {
 
     @Key

@@ -5,11 +5,13 @@ import com.nimbusframework.nimbuscore.wrappers.notification.models.NotificationE
 import models.DataModel;
 import models.ResponseModel;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class NotificationFunction {
     @NotificationServerlessFunction(topic = "evaluation")
     public ResponseModel notificationFunction(DataModel model, NotificationEvent notificationEvent)
     {
-        assert model.equals(new DataModel("test", "test"));
+        assertEquals(model, new DataModel("test", "test"));
         return new ResponseModel(model.getUsername(), model.getFullName(),true);
     }
 }

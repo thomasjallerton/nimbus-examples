@@ -4,7 +4,6 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.apigatewaymanagementapi.AmazonApiGatewayManagementApi;
 import com.amazonaws.services.apigatewaymanagementapi.AmazonApiGatewayManagementApiClientBuilder;
 import com.amazonaws.services.apigatewaymanagementapi.model.PostToConnectionRequest;
-import com.nimbusframework.nimbuscore.annotation.annotations.document.UsesDocumentStore;
 import com.nimbusframework.nimbuscore.annotation.annotations.function.WebSocketServerlessFunction;
 import com.nimbusframework.nimbuscore.annotation.annotations.websocket.UsesServerlessFunctionWebSocketClient;
 import com.nimbusframework.nimbuscore.clients.ClientBuilder;
@@ -42,8 +41,7 @@ public class WebSocketClientEval {
 
     @WebSocketServerlessFunction(topic = "evaluationAWS")
     @UsesServerlessFunctionWebSocketClient
-    public void evalAWSWebSocket(WebSocketEvent webSocketEvent)
-    {
+    public void evalAWSWebSocket(WebSocketEvent webSocketEvent) {
         long startTime = System.nanoTime();
 
         AmazonApiGatewayManagementApi client = AmazonApiGatewayManagementApiClientBuilder

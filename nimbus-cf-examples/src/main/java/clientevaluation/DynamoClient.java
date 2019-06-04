@@ -11,6 +11,8 @@ import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
 import models.DataModel;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class DynamoClient {
 
     @BasicServerlessFunction
@@ -41,7 +43,7 @@ public class DynamoClient {
         endTime = System.nanoTime();
         duration = (endTime - startTime);
 
-        assert model.equals(new DataModel("test", "test"));
+        assertEquals(model, new DataModel("test", "test"));
 
         System.out.println("GET: " + duration);
 

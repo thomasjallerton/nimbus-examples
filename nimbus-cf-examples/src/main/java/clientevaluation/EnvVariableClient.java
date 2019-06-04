@@ -4,6 +4,9 @@ import com.nimbusframework.nimbuscore.annotation.annotations.function.BasicServe
 import com.nimbusframework.nimbuscore.annotation.annotations.function.EnvironmentVariable;
 import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.function.EnvironmentVariableClient;
+import models.DataModel;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EnvVariableClient {
 
@@ -26,7 +29,7 @@ public class EnvVariableClient {
         endTime = System.nanoTime();
         duration = (endTime - startTime);
 
-        assert value.equals("test");
+        assertEquals(value, "test");
         System.out.println("GET: " + duration);
 
         startTime = System.nanoTime();

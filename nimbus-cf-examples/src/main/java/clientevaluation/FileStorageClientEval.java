@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class FileStorageClientEval {
 
 
@@ -53,7 +55,7 @@ public class FileStorageClientEval {
         }
 
         String fileContents = stringBuilder.toString();
-        assert fileContents.equals("THIS IS GOING TO BE THE CONTENTS OF THE FILE");
+        assertEquals(fileContents, "THIS IS GOING TO BE THE CONTENTS OF THE FILE");
 
         System.out.println("READ: " + duration);
 
