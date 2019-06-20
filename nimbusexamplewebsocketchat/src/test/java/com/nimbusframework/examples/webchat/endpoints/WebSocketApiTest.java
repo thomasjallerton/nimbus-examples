@@ -1,6 +1,7 @@
 package com.nimbusframework.examples.webchat.endpoints;
 
 import com.nimbusframework.examples.webchat.models.ConnectionDetail;
+import com.nimbusframework.examples.webchat.websocketapi.OnConnect;
 import com.nimbusframework.nimbuscore.testing.LocalNimbusDeployment;
 import com.nimbusframework.nimbuscore.testing.ServerlessMethod;
 import com.nimbusframework.nimbuscore.testing.keyvalue.LocalKeyValueStore;
@@ -30,7 +31,7 @@ public class WebSocketApiTest {
 
         localNimbusDeployment.connectToWebSockets(headers, queryStringParams);
 
-        ServerlessMethod method = localNimbusDeployment.getMethod(WebchatApi.class, "onConnect");
+        ServerlessMethod method = localNimbusDeployment.getMethod(OnConnect.class, "onConnect");
         assertEquals(1, method.getTimesInvoked());
 
         LocalKeyValueStore<String, ConnectionDetail> connectionDetailStore = localNimbusDeployment.getKeyValueStore(ConnectionDetail.class);
