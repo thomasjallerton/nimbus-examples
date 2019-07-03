@@ -8,7 +8,6 @@ import com.nimbusframework.nimbuscore.annotation.annotations.keyvalue.UsesKeyVal
 import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
 import com.nimbusframework.nimbuscore.clients.keyvalue.KeyValueStoreClient;
-import com.nimbusframework.nimbuscore.clients.websocket.ServerlessFunctionWebSocketClient;
 import com.nimbusframework.nimbuscore.wrappers.websocket.models.WebSocketEvent;
 
 import static com.nimbusframework.examples.webchat.Configuration.DEV_STAGE;
@@ -16,7 +15,6 @@ import static com.nimbusframework.examples.webchat.Configuration.PRODUCTION_STAG
 
 public class OnConnect {
 
-    private ServerlessFunctionWebSocketClient webSocketClient = ClientBuilder.getServerlessFunctionWebSocketClient();
     private DocumentStoreClient<UserDetail> userDetails = ClientBuilder.getDocumentStoreClient(UserDetail.class);
     private KeyValueStoreClient<String, ConnectionDetail> connectionDetails = ClientBuilder.getKeyValueStoreClient(String.class, ConnectionDetail.class);
 

@@ -18,6 +18,7 @@ public class DevEnvironment {
         UserDetail user1 = new UserDetail("user1", null);
         UserDetail user2 = new UserDetail("user2", null);
 
+        userDetails.deleteKey("thomas");
         userDetails.put(user1);
         userDetails.put(user2);
         return "Created test users";
