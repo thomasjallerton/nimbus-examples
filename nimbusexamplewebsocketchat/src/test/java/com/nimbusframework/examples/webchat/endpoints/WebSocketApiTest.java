@@ -2,9 +2,9 @@ package com.nimbusframework.examples.webchat.endpoints;
 
 import com.nimbusframework.examples.webchat.models.ConnectionDetail;
 import com.nimbusframework.examples.webchat.websocketapi.OnConnect;
-import com.nimbusframework.nimbuscore.testing.LocalNimbusDeployment;
-import com.nimbusframework.nimbuscore.testing.ServerlessMethod;
-import com.nimbusframework.nimbuscore.testing.keyvalue.LocalKeyValueStore;
+import com.nimbusframework.nimbuslocal.LocalNimbusDeployment;
+import com.nimbusframework.nimbuslocal.ServerlessMethod;
+import com.nimbusframework.nimbuslocal.deployment.keyvalue.LocalKeyValueStore;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

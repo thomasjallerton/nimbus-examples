@@ -1,8 +1,8 @@
 package com.nimbusframework.examples.webchat.websocketapi;
 
 import com.nimbusframework.examples.webchat.models.UserDetail;
-import com.nimbusframework.nimbuscore.annotation.annotations.deployment.AfterDeployment;
-import com.nimbusframework.nimbuscore.annotation.annotations.document.UsesDocumentStore;
+import com.nimbusframework.nimbuscore.annotations.deployment.AfterDeployment;
+import com.nimbusframework.nimbuscore.annotations.document.UsesDocumentStore;
 import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
 

@@ -1,11 +1,11 @@
 package com.nimbusframework.examples.webchat.models;
 
 
-import com.nimbusframework.nimbuscore.annotation.annotations.keyvalue.KeyValueStore;
-import com.nimbusframework.nimbuscore.annotation.annotations.persistent.Attribute;
-
 import static com.nimbusframework.examples.webchat.Configuration.DEV_STAGE;
 import static com.nimbusframework.examples.webchat.Configuration.PRODUCTION_STAGE;
+
+import com.nimbusframework.nimbuscore.annotations.keyvalue.KeyValueStore;
+import com.nimbusframework.nimbuscore.annotations.persistent.Attribute;
 
 @KeyValueStore(
         keyType = String.class,

@@ -1,9 +1,9 @@
 package com.nimbusframework.examples.webchat.restapi;
 
 import com.nimbusframework.examples.webchat.models.UserDetail;
-import com.nimbusframework.nimbuscore.annotation.annotations.document.UsesDocumentStore;
-import com.nimbusframework.nimbuscore.annotation.annotations.function.HttpMethod;
-import com.nimbusframework.nimbuscore.annotation.annotations.function.HttpServerlessFunction;
+import com.nimbusframework.nimbuscore.annotations.document.UsesDocumentStore;
+import com.nimbusframework.nimbuscore.annotations.function.HttpMethod;
+import com.nimbusframework.nimbuscore.annotations.function.HttpServerlessFunction;
 import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
 
