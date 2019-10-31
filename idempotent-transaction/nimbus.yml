@@ -1,0 +1,3 @@
+#nimbus.yml
+projectName: IdempotentTransaction
+assemble: true
