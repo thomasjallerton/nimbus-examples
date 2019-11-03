@@ -5,9 +5,16 @@ import com.nimbusframework.nimbuscore.annotations.document.UsesDocumentStore;
 import com.nimbusframework.nimbuscore.annotations.function.QueueServerlessFunction;
 import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
+import com.nimbusframework.nimbuscore.clients.store.ConditionOperator;
+import com.nimbusframework.nimbuscore.clients.store.ReadItemRequest;
 import com.nimbusframework.nimbuscore.clients.store.TransactionalClient;
+import com.nimbusframework.nimbuscore.clients.store.UpdateCondition;
 import com.nimbusframework.nimbuscore.clients.store.WriteItemRequest;
+import com.nimbusframework.nimbuscore.exceptions.NonRetryableException;
+import com.nimbusframework.nimbuscore.exceptions.RetryableException;
+import com.nimbusframework.nimbuscore.exceptions.StoreConditionException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TransactionProcessor {
@@ -21,33 +28,39 @@ public class TransactionProcessor {
   @QueueServerlessFunction(id = QUEUE_IDENTIFIER, batchSize = 1)
   @UsesDocumentStore(dataModel = TransactionRequest.class)
   @UsesDocumentStore(dataModel = Balance.class)
-  public void processTransaction(TransactionRequest transactionRequest) {
+  public void processTransaction(TransactionRequest transactionRequest) throws RetryableException {
     TransactionRequest existingRequest = processedTransactions.get(transactionRequest.getTransactionUid());
     if (existingRequest != null) return;
 
     Balance senderBalance = balances.get(transactionRequest.getSender());
     Balance receiverBalance = balances.get(transactionRequest.getReceiver());
 
-    // Sender does not have enough money
-    if (senderBalance == null || senderBalance.getAmount() < transactionRequest.getAmount()) {
+    if (senderBalance == null) {
       processedTransactions.put(transactionRequest);
       return;
     }
 
-    // Sender has enough money and exists
+    List<WriteItemRequest> transactionItems = new LinkedList<>();
+
     if (receiverBalance == null) {
       receiverBalance = new Balance(transactionRequest.getReceiver(), transactionRequest.getAmount());
+      transactionItems.add(balances.getWriteItem(receiverBalance));
     } else {
-      receiverBalance.setAmount(receiverBalance.getAmount() + transactionRequest.getAmount());
+      transactionItems.add(balances.getIncrementValueRequest(transactionRequest.getReceiver(), "amount", transactionRequest.getAmount()));
     }
-    senderBalance.setAmount(senderBalance.getAmount() - transactionRequest.getAmount());
+    UpdateCondition updateCondition = new UpdateCondition("amount", ConditionOperator.GREATER_THAN_OR_EQUAL, transactionRequest.getAmount());
 
-    List<WriteItemRequest> writes = Arrays.asList(
-        balances.getWriteItem(receiverBalance),
-        balances.getWriteItem(senderBalance),
-        processedTransactions.getWriteItem(transactionRequest));
+    transactionItems.add(balances.getDecrementValueRequest(transactionRequest.getSender(), "amount", transactionRequest.getAmount(), updateCondition));
+    transactionItems.add(processedTransactions.getWriteItem(transactionRequest));
 
-    transactionalClient.executeWriteTransaction(writes);
+    try {
+      transactionalClient.executeWriteTransaction(transactionItems);
+    } catch (StoreConditionException e) {
+      // Sender doesn't have to enough money so we don't want function to execute again
+    } catch (NonRetryableException e) {
+      // Can log this error
+    }
+
   }
 
   @AfterDeployment
