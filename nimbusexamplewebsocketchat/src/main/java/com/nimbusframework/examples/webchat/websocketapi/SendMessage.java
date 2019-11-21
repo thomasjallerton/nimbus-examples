@@ -13,6 +13,8 @@ import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
 import com.nimbusframework.nimbuscore.clients.keyvalue.KeyValueStoreClient;
 import com.nimbusframework.nimbuscore.clients.websocket.ServerlessFunctionWebSocketClient;
 import com.nimbusframework.nimbuscore.eventabstractions.WebSocketEvent;
+import com.nimbusframework.nimbuscore.exceptions.NonRetryableException;
+import com.nimbusframework.nimbuscore.exceptions.RetryableException;
 
 import static com.nimbusframework.examples.webchat.Configuration.DEV_STAGE;
 import static com.nimbusframework.examples.webchat.Configuration.PRODUCTION_STAGE;
@@ -27,7 +29,7 @@ public class SendMessage {
     @UsesServerlessFunctionWebSocket(stages = {DEV_STAGE, PRODUCTION_STAGE})
     @UsesDocumentStore(dataModel = UserDetail.class, stages = {DEV_STAGE, PRODUCTION_STAGE})
     @UsesKeyValueStore(dataModel = ConnectionDetail.class, stages = {DEV_STAGE, PRODUCTION_STAGE})
-    public void onMessage(WebSocketMessage message, WebSocketEvent event) {
+    public void onMessage(WebSocketMessage message, WebSocketEvent event) throws RetryableException, NonRetryableException {
         UserDetail userDetail = userDetails.get(message.getRecipient());
         ConnectionDetail connectionDetail = connectionDetails.get(event.getRequestContext().getConnectionId());
         if (userDetail != null && connectionDetail != null) {

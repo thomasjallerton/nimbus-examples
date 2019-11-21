@@ -10,6 +10,8 @@ import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
 import com.nimbusframework.nimbuscore.clients.keyvalue.KeyValueStoreClient;
 
+import com.nimbusframework.nimbuscore.exceptions.NonRetryableException;
+import com.nimbusframework.nimbuscore.exceptions.RetryableException;
 import java.util.List;
 import java.util.Map;
 
@@ -21,13 +23,13 @@ public class Debugging {
 
     @HttpServerlessFunction(path = "UserDetails", method = HttpMethod.GET, stages = {DEV_STAGE})
     @UsesDocumentStore(dataModel = UserDetail.class, stages = {DEV_STAGE})
-    public List<UserDetail> getUserDetails() {
+    public List<UserDetail> getUserDetails() throws RetryableException, NonRetryableException {
         return userDetails.getAll();
     }
 
     @HttpServerlessFunction(path = "ConnectionDetails", method = HttpMethod.GET, stages = {DEV_STAGE})
     @UsesKeyValueStore(dataModel = ConnectionDetail.class, stages = {DEV_STAGE})
-    public Map<String, ConnectionDetail> getConnectionDetail() {
+    public Map<String, ConnectionDetail> getConnectionDetail() throws RetryableException, NonRetryableException {
         return connectionDetails.getAll();
     }
 }

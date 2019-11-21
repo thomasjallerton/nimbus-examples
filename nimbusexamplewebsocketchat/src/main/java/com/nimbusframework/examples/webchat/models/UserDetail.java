@@ -8,8 +8,6 @@ import com.nimbusframework.nimbuscore.annotations.persistent.Attribute;
 import com.nimbusframework.nimbuscore.annotations.persistent.Key;
 
 @DocumentStore(
-        readCapacityUnits = 2,
-        writeCapacityUnits = 2,
         stages = {DEV_STAGE, PRODUCTION_STAGE}
 )
 public class UserDetail {

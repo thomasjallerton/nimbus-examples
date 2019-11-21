@@ -9,8 +9,6 @@ import com.nimbusframework.nimbuscore.annotations.persistent.Attribute;
 
 @KeyValueStore(
         keyType = String.class,
-        readCapacityUnits = 1,
-        writeCapacityUnits = 1,
         stages = {DEV_STAGE, PRODUCTION_STAGE}
 )
 public class ConnectionDetail {
