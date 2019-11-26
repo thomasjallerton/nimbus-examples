@@ -5,6 +5,8 @@ import com.nimbusframework.nimbuscore.annotations.function.HttpMethod;
 import com.nimbusframework.nimbuscore.annotations.function.HttpServerlessFunction;
 import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
+import com.nimbusframework.nimbuscore.exceptions.NonRetryableException;
+import com.nimbusframework.nimbuscore.exceptions.RetryableException;
 
 public class PostApi {
 
@@ -16,7 +18,9 @@ public class PostApi {
     try {
       personStore.put(newPerson);
       return true;
-    } catch (Exception e) {
+    } catch (RetryableException e) {
+      return newPerson(newPerson);
+    } catch (NonRetryableException e) {
       e.printStackTrace();
       return false;
     }

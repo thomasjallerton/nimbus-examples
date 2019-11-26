@@ -21,5 +21,4 @@ public class GetApi {
       return null;
     }
   }
-
 }
