@@ -4,10 +4,10 @@ package com.nimbusframework.examples.webchat.models;
 import static com.nimbusframework.examples.webchat.Configuration.DEV_STAGE;
 import static com.nimbusframework.examples.webchat.Configuration.PRODUCTION_STAGE;
 
-import com.nimbusframework.nimbuscore.annotations.keyvalue.KeyValueStore;
+import com.nimbusframework.nimbuscore.annotations.keyvalue.KeyValueStoreDefinition;
 import com.nimbusframework.nimbuscore.annotations.persistent.Attribute;
 
-@KeyValueStore(
+@KeyValueStoreDefinition(
         keyType = String.class,
         stages = {DEV_STAGE, PRODUCTION_STAGE}
 )

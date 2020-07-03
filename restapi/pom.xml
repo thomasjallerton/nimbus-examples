@@ -12,7 +12,7 @@
     <dependency>
       <groupId>com.nimbusframework</groupId>
       <artifactId>nimbus-aws</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>0.13.5</version>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -24,7 +24,7 @@
     <dependency>
       <groupId>com.nimbusframework</groupId>
       <artifactId>nimbus-local</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>0.13.6</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -34,7 +34,7 @@
       <plugin>
         <groupId>com.nimbusframework</groupId>
         <artifactId>nimbus-deployment-maven-plugin</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>0.13.5</version>
         <configuration>
           <region>eu-west-1</region>
           <stage>dev</stage>
