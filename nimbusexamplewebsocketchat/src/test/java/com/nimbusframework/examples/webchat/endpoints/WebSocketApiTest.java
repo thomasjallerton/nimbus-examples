@@ -1,15 +1,20 @@
 package com.nimbusframework.examples.webchat.endpoints;
 
 import com.nimbusframework.examples.webchat.models.ConnectionDetail;
+import com.nimbusframework.examples.webchat.models.UserDetail;
 import com.nimbusframework.examples.webchat.websocketapi.OnConnect;
+import com.nimbusframework.nimbuscore.annotations.function.HttpMethod;
 import com.nimbusframework.nimbuslocal.LocalNimbusDeployment;
 import com.nimbusframework.nimbuslocal.ServerlessMethod;
+import com.nimbusframework.nimbuslocal.deployment.http.HttpRequest;
 import com.nimbusframework.nimbuslocal.deployment.keyvalue.LocalKeyValueStore;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WebSocketApiTest {
@@ -41,5 +46,29 @@ public class WebSocketApiTest {
         for (ConnectionDetail connectionDetail : connectionDetails.values()) {
             assertEquals("user1", connectionDetail.getUsername());
         }
+    }
+
+    @Test
+    public void registeringAllowsYouToLogIn() {
+        LocalNimbusDeployment localNimbusDeployment = LocalNimbusDeployment.getNewInstance("com.nimbusframework.examples.webchat");
+
+        String newUser = "newUser";
+
+        Map<String, String> queryStringParams = new HashMap<>();
+        queryStringParams.put("user", "newUser");
+
+        Map<String, String> headers = new HashMap<>();
+
+        assertThatThrownBy(() -> localNimbusDeployment.connectToWebSockets(headers, queryStringParams))
+            .isInstanceOf(Exception.class);
+
+        HttpRequest httpRequest = new HttpRequest("register", HttpMethod.POST).withBodyFromObject(newUser);
+        localNimbusDeployment.sendHttpRequest(httpRequest);
+
+        localNimbusDeployment.connectToWebSockets(headers, queryStringParams);
+
+        UserDetail newUserDetail = localNimbusDeployment.getDocumentStore(UserDetail.class).get(newUser);
+        assertThat(newUserDetail).isNotNull();
+        assertThat(newUserDetail.getUsername()).isNotNull();
     }
 }
