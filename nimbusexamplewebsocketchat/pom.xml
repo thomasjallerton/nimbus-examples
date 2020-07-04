@@ -37,7 +37,7 @@
         <version>0.13.5</version>
         <configuration>
           <region>eu-west-1</region>
-          <stage>prod</stage>
+          <stage>dev</stage>
         </configuration>
       </plugin>
       <plugin>
