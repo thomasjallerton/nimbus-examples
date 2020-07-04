@@ -18,9 +18,9 @@ public class OnConnect {
     private DocumentStoreClient<UserDetail> userDetails = ClientBuilder.getDocumentStoreClient(UserDetail.class);
     private KeyValueStoreClient<String, ConnectionDetail> connectionDetails = ClientBuilder.getKeyValueStoreClient(String.class, ConnectionDetail.class);
 
-    @WebSocketServerlessFunction(topic = "$connect", stages = {DEV_STAGE, PRODUCTION_STAGE})
-    @UsesDocumentStore(dataModel = UserDetail.class, stages = {DEV_STAGE, PRODUCTION_STAGE})
-    @UsesKeyValueStore(dataModel = ConnectionDetail.class, stages = {DEV_STAGE, PRODUCTION_STAGE})
+    @WebSocketServerlessFunction(topic = "$connect")
+    @UsesDocumentStore(dataModel = UserDetail.class)
+    @UsesKeyValueStore(dataModel = ConnectionDetail.class)
     public void onConnect(WebSocketEvent event) throws Exception {
         String connectionId = event.getRequestContext().getConnectionId();
         String username = event.getQueryStringParameters().get("user");

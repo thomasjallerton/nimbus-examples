@@ -7,13 +7,11 @@ import com.nimbusframework.nimbuscore.clients.ClientBuilder;
 
 public class NotificationApis {
 
-  private static final String TOPIC_IDENTIFIER = "LowBalanceNotification";
-
   @DocumentStoreServerlessFunction(dataModel = Balance.class, method = StoreEventType.MODIFY)
-  @UsesNotificationTopic(topic = TOPIC_IDENTIFIER) //TODO: I want to make notifications more tailored to individuals
+  @UsesNotificationTopic(notificationTopic = LowBalanceNotification.class)
   public void notifyOfLowBalance(Balance balance) {
     if (balance.getAmount() < 10) {
-      ClientBuilder.getNotificationClient(TOPIC_IDENTIFIER).notify("User " + balance.getUser() + " has a low balance of " + balance.getAmount());
+      ClientBuilder.getNotificationClient(LowBalanceNotification.class).notify("User " + balance.getUser() + " has a low balance of " + balance.getAmount());
     }
   }
 

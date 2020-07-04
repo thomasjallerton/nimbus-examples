@@ -9,17 +9,16 @@ import com.nimbusframework.nimbuscore.clients.document.DocumentStoreClient;
 import com.nimbusframework.nimbuscore.clients.queue.QueueClient;
 import com.nimbusframework.nimbuscore.clients.store.ReadItemRequest;
 import com.nimbusframework.nimbuscore.eventabstractions.HttpEvent;
-import com.nimbusframework.nimbuscore.exceptions.NonRetryableException;
-import com.nimbusframework.nimbuscore.exceptions.RetryableException;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class RestApi {
 
   @HttpServerlessFunction(path = "transactions", method = HttpMethod.POST)
-  @UsesQueue(id = TransactionProcessor.QUEUE_IDENTIFIER)
+  @UsesQueue(queue = TransactionQueue.class)
   public String requestTransaction(TransactionRequest request) {
-    QueueClient queueClient = ClientBuilder.getQueueClient(TransactionProcessor.QUEUE_IDENTIFIER);
+    QueueClient queueClient = ClientBuilder.getQueueClient(TransactionQueue.class);
     try {
       queueClient.sendMessageAsJson(request);
       return request.getTransactionUid().toString();
@@ -32,7 +31,7 @@ public class RestApi {
 
   @HttpServerlessFunction(path = "balances/{user}", method = HttpMethod.GET)
   @UsesDocumentStore(dataModel = Balance.class)
-  public Balance getBalance(HttpEvent event) throws NonRetryableException, RetryableException {
+  public Balance getBalance(HttpEvent event) {
     String user = event.getPathParameters().get("user");
     DocumentStoreClient<Balance> balanceClient = ClientBuilder.getDocumentStoreClient(Balance.class);
     List<ReadItemRequest<Balance>> reads = new LinkedList<>();

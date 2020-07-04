@@ -1,3 +1,6 @@
 #nimbus.yml
 projectName: WebSocketChatServer
 assemble: true
+defaultStages:
+  - dev
+  - prod

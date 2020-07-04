@@ -25,11 +25,11 @@ public class SendMessage {
     private DocumentStoreClient<UserDetail> userDetails = ClientBuilder.getDocumentStoreClient(UserDetail.class);
     private KeyValueStoreClient<String, ConnectionDetail> connectionDetails = ClientBuilder.getKeyValueStoreClient(String.class, ConnectionDetail.class);
 
-    @WebSocketServerlessFunction(topic = "sendMessage", stages = {DEV_STAGE, PRODUCTION_STAGE})
-    @UsesServerlessFunctionWebSocket(stages = {DEV_STAGE, PRODUCTION_STAGE})
-    @UsesDocumentStore(dataModel = UserDetail.class, stages = {DEV_STAGE, PRODUCTION_STAGE})
-    @UsesKeyValueStore(dataModel = ConnectionDetail.class, stages = {DEV_STAGE, PRODUCTION_STAGE})
-    public void onMessage(WebSocketMessage message, WebSocketEvent event) throws RetryableException, NonRetryableException {
+    @WebSocketServerlessFunction(topic = "sendMessage")
+    @UsesServerlessFunctionWebSocket
+    @UsesDocumentStore(dataModel = UserDetail.class)
+    @UsesKeyValueStore(dataModel = ConnectionDetail.class)
+    public void onMessage(WebSocketMessage message, WebSocketEvent event) {
         UserDetail userDetail = userDetails.get(message.getRecipient());
         ConnectionDetail connectionDetail = connectionDetails.get(event.getRequestContext().getConnectionId());
         if (userDetail != null && connectionDetail != null) {

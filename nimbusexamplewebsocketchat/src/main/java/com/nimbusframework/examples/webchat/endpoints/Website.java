@@ -10,14 +10,12 @@ import static com.nimbusframework.examples.webchat.Configuration.PRODUCTION_STAG
 @FileStorageBucketDefinition(
         bucketName = Website.WEBSITE_BUCKET,
         staticWebsite = true,
-        indexFile = "webchat.html",
-        stages = {DEV_STAGE, PRODUCTION_STAGE}
+        indexFile = "webchat.html"
 )
 @FileUpload(fileStorageBucket = Website.class,
             localPath = "src/website",
             targetPath = "",
-            substituteNimbusVariables = true,
-            stages = {DEV_STAGE, PRODUCTION_STAGE}
+            substituteNimbusVariables = true
 )
 public class Website {
     public static final String WEBSITE_BUCKET = "WebChatNimbus";

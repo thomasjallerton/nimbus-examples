@@ -20,16 +20,14 @@ import java.util.List;
 
 public class TransactionProcessor {
 
-  static final String QUEUE_IDENTIFIER = "TransactionQueue";
-
   private DocumentStoreClient<TransactionRequest> processedTransactions = ClientBuilder.getDocumentStoreClient(TransactionRequest.class);
   private DocumentStoreClient<Balance> balances = ClientBuilder.getDocumentStoreClient(Balance.class);
   private TransactionalClient transactionalClient = ClientBuilder.getTransactionalClient();
 
-  @QueueServerlessFunction(id = QUEUE_IDENTIFIER, batchSize = 1)
+  @QueueServerlessFunction(queue = TransactionQueue.class, batchSize = 1)
   @UsesDocumentStore(dataModel = TransactionRequest.class)
   @UsesDocumentStore(dataModel = Balance.class)
-  public void processTransaction(TransactionRequest transactionRequest) throws RetryableException {
+  public void processTransaction(TransactionRequest transactionRequest) {
     try {
       TransactionRequest existingRequest = processedTransactions.get(transactionRequest.getTransactionUid());
       if (existingRequest != null) return;

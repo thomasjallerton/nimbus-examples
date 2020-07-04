@@ -23,13 +23,13 @@ public class Debugging {
 
     @HttpServerlessFunction(path = "UserDetails", method = HttpMethod.GET, stages = {DEV_STAGE})
     @UsesDocumentStore(dataModel = UserDetail.class, stages = {DEV_STAGE})
-    public List<UserDetail> getUserDetails() throws RetryableException, NonRetryableException {
+    public List<UserDetail> getUserDetails() {
         return userDetails.getAll();
     }
 
     @HttpServerlessFunction(path = "ConnectionDetails", method = HttpMethod.GET, stages = {DEV_STAGE})
     @UsesKeyValueStore(dataModel = ConnectionDetail.class, stages = {DEV_STAGE})
-    public Map<String, ConnectionDetail> getConnectionDetail() throws RetryableException, NonRetryableException {
+    public Map<String, ConnectionDetail> getConnectionDetail() {
         return connectionDetails.getAll();
     }
 }

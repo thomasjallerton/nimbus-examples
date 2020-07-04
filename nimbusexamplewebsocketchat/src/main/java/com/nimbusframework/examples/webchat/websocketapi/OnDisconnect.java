@@ -22,10 +22,10 @@ public class OnDisconnect {
     private DocumentStoreClient<UserDetail> userDetails = ClientBuilder.getDocumentStoreClient(UserDetail.class);
     private KeyValueStoreClient<String, ConnectionDetail> connectionDetails = ClientBuilder.getKeyValueStoreClient(String.class, ConnectionDetail.class);
 
-    @WebSocketServerlessFunction(topic = "$disconnect", stages = {DEV_STAGE, PRODUCTION_STAGE})
-    @UsesDocumentStore(dataModel = UserDetail.class, stages = {DEV_STAGE, PRODUCTION_STAGE})
-    @UsesKeyValueStore(dataModel = ConnectionDetail.class, stages = {DEV_STAGE, PRODUCTION_STAGE})
-    public void onDisconnect(WebSocketEvent event) throws RetryableException, NonRetryableException {
+    @WebSocketServerlessFunction(topic = "$disconnect")
+    @UsesDocumentStore(dataModel = UserDetail.class)
+    @UsesKeyValueStore(dataModel = ConnectionDetail.class)
+    public void onDisconnect(WebSocketEvent event) {
         String connectionId = event.getRequestContext().getConnectionId();
         ConnectionDetail disconnectedUser = connectionDetails.get(connectionId);
         if (disconnectedUser != null) {
